@@ -145,7 +145,7 @@ func LoadKNET(filename string) ([]*Wave, error) {
 		}
 	}
 
-	wave.Name = dir
+	wave.Name = ""
 	wave.Dt = dt
 	wave.Data = data
 	return []*Wave{ wave }, nil
