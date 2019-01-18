@@ -20,8 +20,12 @@ func main() {
 	max := wave.Max()
 	min := wave.Min()
 	absmax := wave.AbsMax()
+	ndata := wave.NData()
+	length := wave.Length()
 
 	fmt.Printf("Max.     = %f\n", max)
 	fmt.Printf("Min.     = %f\n", min)
 	fmt.Printf("Abs.Max. = %f\n", absmax)
+	fmt.Printf("NData    = %d\n", ndata)
+	fmt.Printf("Length   = %f sec\n", length)
 }
