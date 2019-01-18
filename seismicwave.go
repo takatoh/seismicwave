@@ -23,7 +23,7 @@ func newWave() *Wave {
 }
 
 func (w *Wave) Max() float64 {
-	max := 0.0
+	max := w.Data[0]
 	n := len(w.Data)
 	for i := 0; i < n; i++ {
 		if w.Data[i] > max {
@@ -34,7 +34,7 @@ func (w *Wave) Max() float64 {
 }
 
 func (w *Wave) AbsMax() float64 {
-	absMax := 0.0
+	absMax := w.Data[0]
 	n := len(w.Data)
 	for i := 0; i < n; i++ {
 		if math.Abs(w.Data[i]) > absMax {
@@ -45,7 +45,7 @@ func (w *Wave) AbsMax() float64 {
 }
 
 func (w *Wave) Min() float64 {
-	min := 0.0
+	min := w.Data[0]
 	n := len(w.Data)
 	for i := 0; i < n; i++ {
 		if w.Data[i] < min {
