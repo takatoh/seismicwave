@@ -102,7 +102,7 @@ func LoadKNETSet(basename string) ([]*Wave, error) {
 	return waves, nil
 }
 
-func loadKnetWave(basename, dir string) (*Wave, error) {
+func LoadKNET(basename, dir string) (*Wave, error) {
 	var dt float64
 	var scaleFactor float64
 	wave := newWave()
