@@ -26,6 +26,10 @@ func (w *Wave) NData() int {
 	return len(w.Data)
 }
 
+func (w *Wave) Length() float64 {
+	return float64(len(w.Data)) * w.Dt
+}
+
 func (w *Wave) Max() float64 {
 	max := w.Data[0]
 	n := len(w.Data)
