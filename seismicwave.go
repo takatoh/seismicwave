@@ -92,11 +92,11 @@ func LoadKNETSet(basename string) ([]*Wave, error) {
 	var dirs = []string{ "NS", "EW", "UD" }
 
 	for _, dir := range dirs {
-		wave, err := loadKnetWave(basename, dir)
+		ws, err := LoadKNET(basename + "." + dir)
 		if err != nil {
 			return waves, err
 		}
-		waves = append(waves, wave)
+		waves = append(waves, ws[0])
 	}
 
 	return waves, nil
