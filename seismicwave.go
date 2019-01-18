@@ -102,7 +102,7 @@ func LoadKNETSet(basename string) ([]*Wave, error) {
 	return waves, nil
 }
 
-func LoadKNET(filename string) (*Wave, error) {
+func LoadKNET(filename string) ([]*Wave, error) {
 	var dt float64
 	var scaleFactor float64
 	wave := newWave()
@@ -110,7 +110,7 @@ func LoadKNET(filename string) (*Wave, error) {
 
 	f, err := os.Open(filename)
 	if err != nil {
-		return wave, err
+		return []*Wave{ wave }, err
 	}
 	defer f.Close()
 
@@ -148,7 +148,7 @@ func LoadKNET(filename string) (*Wave, error) {
 	wave.Name = dir
 	wave.Dt = dt
 	wave.Data = data
-	return wave, nil
+	return []*Wave{ wave }, nil
 }
 
 func LoadJMA(filename string) ([]*Wave, error) {
