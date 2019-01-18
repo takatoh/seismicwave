@@ -22,6 +22,39 @@ func newWave() *Wave {
 	return p
 }
 
+func (w *Wave) Max() float64 {
+	max := 0.0
+	n := len(w.Data)
+	for i := 0; i < n; i++ {
+		if w.Data[i] > max {
+			max = w.Data[i]
+		}
+	}
+	return max
+}
+
+func (w *Wave) AbsMax() float64 {
+	absMax := 0.0
+	n := len(w.Data)
+	for i := 0; i < n; i++ {
+		if math.Abs(w.Data[i]) > absMax {
+			absMax = math.Abs(w.Data[i])
+		}
+	}
+	return absMax
+}
+
+func (w *Wave) Min() float64 {
+	min := 0.0
+	n := len(w.Data)
+	for i := 0; i < n; i++ {
+		if w.Data[i] < max {
+			min = w.Data[i]
+		}
+	}
+	return min
+}
+
 func LoadCSV(filename string) ([]*Wave, error) {
 	var waves []*Wave
 	var reader *csv.Reader
