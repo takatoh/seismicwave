@@ -48,7 +48,7 @@ func (w *Wave) Min() float64 {
 	min := 0.0
 	n := len(w.Data)
 	for i := 0; i < n; i++ {
-		if w.Data[i] < max {
+		if w.Data[i] < min {
 			min = w.Data[i]
 		}
 	}
