@@ -66,15 +66,10 @@ func (w *Wave) Min() float64 {
 func LoadCSV(filename string) ([]*Wave, error) {
 	var waves []*Wave
 	var reader *csv.Reader
-	var columns []string
+	var row []string
 	var err error
-	var ns, ew, ud *Wave
-	var t1, t2, d1, d2, d3 float64
-	var dataNs, dataEw, dataUd []float64
+	var t1, t2 float64
 
-	ns = newWave()
-	ew = newWave()
-	ud = newWave()
 	t1 = 0.0
 	t2 = 0.0
 
@@ -85,33 +80,28 @@ func LoadCSV(filename string) ([]*Wave, error) {
 	defer read_file.Close()
 
 	reader = csv.NewReader(read_file)
-	columns, err = reader.Read()
-	ns.Name = columns[1]
-	ew.Name = columns[2]
-	ud.Name = columns[3]
+	row, err = reader.Read()
+	n := len(row) - 1
+	for i := 1; i <= n; i++ {
+		wave := newWave()
+		wave.Name = row[i]
+		waves = append(waves, wave)
+	}
 	for {
-		columns, err = reader.Read()
+		row, err = reader.Read()
 		if err == io.EOF {
 			dt := round(t2 - t1, 2)
-			ns.Dt = dt
-			ns.Data = dataNs
-			waves = append(waves, ns)
-			ew.Dt = dt
-			ew.Data = dataEw
-			waves = append(waves, ew)
-			ud.Dt = dt
-			ud.Data = dataUd
-			waves = append(waves, ud)
+			for i := 0; i < n; i++ {
+				waves[0].Dt = dt
+			}
 			return waves, nil
 		}
 		t1 = t2
-		t2, _ = strconv.ParseFloat(columns[0], 64)
-		d1, _ = strconv.ParseFloat(columns[1], 64)
-		d2, _ = strconv.ParseFloat(columns[2], 64)
-		d3, _ = strconv.ParseFloat(columns[3], 64)
-		dataNs = append(dataNs, d1)
-		dataEw = append(dataEw, d2)
-		dataUd = append(dataUd, d3)
+		t2, _ = strconv.ParseFloat(row[0], 64)
+		for i := 1; i <= n; i++ {
+			d, _ := strconv.ParseFloat(row[i], 64)
+			waves[i - 1].Data = append(waves[i - 1].Data, d)
+		}
 	}
 }
 
