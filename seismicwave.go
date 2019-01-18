@@ -102,13 +102,13 @@ func LoadKNETSet(basename string) ([]*Wave, error) {
 	return waves, nil
 }
 
-func LoadKNET(basename, dir string) (*Wave, error) {
+func LoadKNET(filename string) (*Wave, error) {
 	var dt float64
 	var scaleFactor float64
 	wave := newWave()
 	data := make([]float64, 0)
 
-	f, err := os.Open(basename + "." + dir)
+	f, err := os.Open(filename)
 	if err != nil {
 		return wave, err
 	}
