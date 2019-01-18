@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
@@ -8,9 +9,20 @@ import (
 )
 
 func main() {
-	filename := os.Args[1]
+	opt_jma := flag.Bool("jma", false, "Load JMA waves.")
+	opt_knet := flag.Bool("knet", false, "Load KNET waves.")
+	flag.Parse()
 
-	waves, err := seismicwave.LoadCSV(filename)
+	filename := flag.Args()[0]
+	var waves []*seismicwave.Wave
+	var err error
+	if *opt_jma {
+		waves, err = seismicwave.LoadJMA(filename)
+	} else if *opt_knet {
+		waves, err = seismicwave.LoadKNETSet(filename)
+	} else {
+		waves, err = seismicwave.LoadCSV(filename)
+	}
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
