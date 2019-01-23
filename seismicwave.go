@@ -281,9 +281,11 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 		scanner.Scan()
 		line := scanner.Text()
 		datas := splitN(line, fl)
-		for _, s := range datas {
-			d, _ := strconv.ParseFloat(strings.Trim(s, " "), 64)
-			data = append(data, d)
+		for j, s := range datas {
+			if j < fn {
+				d, _ := strconv.ParseFloat(strings.Trim(s, " "), 64)
+				data = append(data, d)
+			}
 		}
 	}
 	wave.Data = data
