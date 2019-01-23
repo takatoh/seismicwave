@@ -250,7 +250,7 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 	if ndata % fn > 0 {
 		lineCount += 1
 	}
-	data := make([]float64, ndata)
+	var data []float64
 
 	f, err := os.Open(filename)
 	if err != nil {
