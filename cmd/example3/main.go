@@ -18,7 +18,7 @@ func main() {
 
 	filename := flag.Args()[0]
 
-	wave, err := seismicwave.LoadFixedFormat(
+	waves, err := seismicwave.LoadFixedFormat(
 		filename,
 		*opt_name,
 		*opt_format,
@@ -31,6 +31,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	wave := waves[0]
 	fmt.Printf("Name     = %s\n", wave.Name)
 	fmt.Printf("Dt       = %f\n", wave.Dt)
 	fmt.Printf("Max.     = %f\n", wave.Max())
