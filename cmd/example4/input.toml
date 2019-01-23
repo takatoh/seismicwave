@@ -1,0 +1,23 @@
+[[wave]]
+name   = "NS"
+file   = "example.dat"
+format = "10F8.2"
+dt     = 0.02
+ndata  = 17996
+skip   = 2
+
+[[wave]]
+name   = "EW"
+file   = "example.dat"
+format = "10F8.2"
+dt     = 0.02
+ndata  = 17996
+skip   = 1804
+
+[[wave]]
+name   = "UD"
+file   = "example.dat"
+format = "10F8.2"
+dt     = 0.02
+ndata  = 17996
+skip   = 3606
