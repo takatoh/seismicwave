@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"math"
 
-//	"github.com/BurntSushi/toml"
+	"github.com/BurntSushi/toml"
 )
 
 type Wave struct {
@@ -305,8 +305,14 @@ func splitN(s string, l int) []string {
 	return r
 }
 
-func LoadFixedFormatWithInput(input InputWave) ([]*Wave, error) {
+func LoadFixedFormatWithInput(inputfile string) ([]*Wave, error) {
 	var waves []*Wave
+
+	var input InputWave
+	_, err := toml.DecodeFile(inputfile, &input)
+	if err != nil {
+		return waves, err
+	}
 
 	for _, w := range input.Waves {
 		wave, err := LoadFixedFormat(w.File, w.Name, w.Format, w.Dt, w.NData, w.Skip)
