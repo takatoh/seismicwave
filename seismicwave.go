@@ -9,8 +9,6 @@ import (
 	"strings"
 	"regexp"
 	"math"
-
-//	"fmt"
 )
 
 type Wave struct {
@@ -254,10 +252,6 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 	}
 	data := make([]float64, ndata)
 
-//	fmt.Println(fn)
-//	fmt.Println(fl)
-//	fmt.Println(lineCount)
-
 	f, err := os.Open(filename)
 	if err != nil {
 		return wave, err
@@ -272,7 +266,6 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 		scanner.Scan()
 		line := scanner.Text()
 		datas := splitN(line, fl)
-//		fmt.Printf("%#v\n", datas)
 		for _, s := range datas {
 			d, _ := strconv.ParseFloat(strings.Trim(s, " "), 64)
 			data = append(data, d)
