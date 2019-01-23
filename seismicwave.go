@@ -304,3 +304,17 @@ func splitN(s string, l int) []string {
 
 	return r
 }
+
+func LoadFixedFormatWithInput(input InputWave) ([]*Wave, error) {
+	var waves []*Wave
+
+	for _, w := range input.Waves {
+		wave, err := LoadFixedFormat(w.File, w.Name, w.Format, w.Dt, w.NData, w.Skip)
+		if err != nil {
+			return waves, err
+		}
+		waves = append(waves, wave)
+	}
+
+	return waves, nil
+}
