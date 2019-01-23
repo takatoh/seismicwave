@@ -18,7 +18,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	for _, w := range input.Waves {
-		fmt.Printf("%#v\n", w)
+	waves, err := seismicwave.LoadFixedFormatWithInput(input)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	for _, wave := range waves {
+		fmt.Printf("Name     = %s\n", wave.Name)
+		fmt.Printf("Dt       = %f\n", wave.Dt)
+		fmt.Printf("Max.     = %f\n", wave.Max())
+		fmt.Printf("Min.     = %f\n", wave.Min())
+		fmt.Printf("Abs.Max. = %f\n", wave.AbsMax())
+		fmt.Printf("NData    = %d\n", wave.NData())
+		fmt.Printf("Length   = %f sec\n\n", wave.Length())
 	}
 }
