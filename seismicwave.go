@@ -253,7 +253,7 @@ func LoadJMA(filename string) ([]*Wave, error) {
 	return waves, nil
 }
 
-func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip int) (*Wave, error) {
+func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip int) ([]*Wave, error) {
 	wave := newWave()
 	wave.Name = wavename
 	wave.Dt = dt
@@ -269,7 +269,7 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 
 	f, err := os.Open(filename)
 	if err != nil {
-		return wave, err
+		return []*Wave{ wave }, err
 	}
 	defer f.Close()
 
@@ -288,7 +288,7 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 	}
 	wave.Data = data
 
-	return wave, nil
+	return []*Wave{ wave }, nil
 }
 
 func splitN(s string, l int) []string {
@@ -315,11 +315,11 @@ func LoadFixedFormatWithTOML(inputfile string) ([]*Wave, error) {
 	}
 
 	for _, w := range input.Waves {
-		wave, err := LoadFixedFormat(w.File, w.Name, w.Format, w.Dt, w.NData, w.Skip)
+		ws, err := LoadFixedFormat(w.File, w.Name, w.Format, w.Dt, w.NData, w.Skip)
 		if err != nil {
 			return waves, err
 		}
-		waves = append(waves, wave)
+		waves = append(waves, ws[0])
 	}
 
 	return waves, nil
