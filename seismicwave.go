@@ -305,7 +305,7 @@ func splitN(s string, l int) []string {
 	return r
 }
 
-func LoadFixedFormatWithInput(inputfile string) ([]*Wave, error) {
+func LoadFixedFormatWithTOML(inputfile string) ([]*Wave, error) {
 	var waves []*Wave
 
 	var input InputWave
