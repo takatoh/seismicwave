@@ -9,6 +9,8 @@ import (
 	"strings"
 	"regexp"
 	"math"
+
+//	"github.com/BurntSushi/toml"
 )
 
 type Wave struct {
@@ -61,6 +63,19 @@ func (w *Wave) Min() float64 {
 		}
 	}
 	return min
+}
+
+type InputWave struct {
+	Waves []InputWaveInfo `toml:"wave"`
+}
+
+type InputWaveInfo struct {
+	Name   string  `toml:"name"`
+	File   string  `toml:"file"`
+	Format string  `toml:"format"`
+	Dt     float64 `toml:"dt"`
+	NData  int     `toml:"ndata"`
+	Skip   int     `toml:"skip"`
 }
 
 func LoadCSV(filename string) ([]*Wave, error) {
