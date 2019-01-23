@@ -5,20 +5,12 @@ import (
 	"os"
 
 	"github.com/takatoh/seismicwave"
-	"github.com/BurntSushi/toml"
 )
 
 func main() {
 	inputfile := os.Args[1]
-	var input seismicwave.InputWave
 
-	_, err := toml.DecodeFile(inputfile, &input)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	waves, err := seismicwave.LoadFixedFormatWithInput(input)
+	waves, err := seismicwave.LoadFixedFormatWithTOML(inputfile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
