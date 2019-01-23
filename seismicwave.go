@@ -9,6 +9,8 @@ import (
 	"strings"
 	"regexp"
 	"math"
+
+//	"fmt"
 )
 
 type Wave struct {
@@ -236,4 +238,61 @@ func LoadJMA(filename string) ([]*Wave, error) {
 	}
 
 	return waves, nil
+}
+
+func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip int) (*Wave, error) {
+	wave := newWave()
+	wave.Name = wavename
+	wave.Dt = dt
+
+	fstrings := regexp.MustCompile("[Ff.]").Split(format, 3)
+	fn, _ := strconv.Atoi(fstrings[0])
+	fl, _ := strconv.Atoi(fstrings[1])
+	lineCount := ndata / fn
+	if ndata % fn > 0 {
+		lineCount += 1
+	}
+	data := make([]float64, ndata)
+
+//	fmt.Println(fn)
+//	fmt.Println(fl)
+//	fmt.Println(lineCount)
+
+	f, err := os.Open(filename)
+	if err != nil {
+		return wave, err
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for i := 0; i < skip; i++ {
+		scanner.Scan()
+	}
+	for i := 0; i < lineCount; i++ {
+		scanner.Scan()
+		line := scanner.Text()
+		datas := splitN(line, fl)
+//		fmt.Printf("%#v\n", datas)
+		for _, s := range datas {
+			d, _ := strconv.ParseFloat(strings.Trim(s, " "), 64)
+			data = append(data, d)
+		}
+	}
+	wave.Data = data
+
+	return wave, nil
+}
+
+func splitN(s string, l int) []string {
+	var r []string
+
+	for i := 0; i < len(s); i += l {
+		if i + l < len(s) {
+			r = append(r, s[i:(i + l)])
+		} else {
+			r = append(r, s[i:])
+		}
+	}
+
+	return r
 }
