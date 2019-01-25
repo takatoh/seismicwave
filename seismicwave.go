@@ -114,8 +114,10 @@ func LoadCSV(filename string) ([]*Wave, error) {
 		t1 = t2
 		t2, _ = strconv.ParseFloat(row[0], 64)
 		for i := 1; i <= n; i++ {
-			d, _ := strconv.ParseFloat(row[i], 64)
-			waves[i - 1].Data = append(waves[i - 1].Data, d)
+			d, e := strconv.ParseFloat(row[i], 64)
+			if e == nil {
+				waves[i - 1].Data = append(waves[i - 1].Data, d)
+			}
 		}
 	}
 }
