@@ -107,7 +107,7 @@ func LoadCSV(filename string) ([]*Wave, error) {
 		if err == io.EOF {
 			dt := round(t2 - t1, 2)
 			for i := 0; i < n; i++ {
-				waves[0].Dt = dt
+				waves[i].Dt = dt
 			}
 			return waves, nil
 		}
