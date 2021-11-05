@@ -19,6 +19,10 @@ func newWave() *Wave {
 	return p
 }
 
+func (w *Wave) DT() float64 {
+	return w.Dt
+}
+
 func (w *Wave) NData() int {
 	return len(w.Data)
 }
