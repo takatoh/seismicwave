@@ -1,14 +1,14 @@
 package seismicwave
 
 import (
-	"encoding/csv"
 	"bufio"
+	"encoding/csv"
 	"io"
+	"math"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
-	"regexp"
-	"math"
 
 	"github.com/BurntSushi/toml"
 )
@@ -78,66 +78,9 @@ type InputWaveInfo struct {
 	Skip   int     `toml:"skip"`
 }
 
-func LoadCSV(filename string) ([]*Wave, error) {
-	var waves []*Wave
-	var reader *csv.Reader
-	var row []string
-	var err error
-	var t1, t2 float64
-
-	t1 = 0.0
-	t2 = 0.0
-
-	read_file, err := os.Open(filename)
-	if err != nil {
-		return waves, err
-	}
-	defer read_file.Close()
-
-	reader = csv.NewReader(read_file)
-	row, err = reader.Read()
-	n := len(row) - 1
-	for i := 1; i <= n; i++ {
-		wave := newWave()
-		wave.Name = row[i]
-		waves = append(waves, wave)
-	}
-	for {
-		row, err = reader.Read()
-		if err == io.EOF {
-			dt := round(t2 - t1, 2)
-			for i := 0; i < n; i++ {
-				waves[i].Dt = dt
-			}
-			return waves, nil
-		}
-		t1 = t2
-		t2, _ = strconv.ParseFloat(row[0], 64)
-		for i := 1; i <= n; i++ {
-			d, e := strconv.ParseFloat(row[i], 64)
-			if e == nil {
-				waves[i - 1].Data = append(waves[i - 1].Data, d)
-			}
-		}
-	}
-}
-
-func round(val float64, places int) float64 {
-	var round float64
-	pow := math.Pow(10, float64(places))
-	digit := pow * val
-	_, div := math.Modf(digit)
-	if div >= 0.5 {
-		round = math.Ceil(digit)
-	} else {
-		round = math.Floor(digit)
-	}
-	return round / pow
-}
-
 func LoadKNETSet(basename string) ([]*Wave, error) {
 	var waves []*Wave
-	var dirs = []string{ "NS", "EW", "UD" }
+	var dirs = []string{"NS", "EW", "UD"}
 
 	for _, dir := range dirs {
 		ws, err := LoadKNET(basename + "." + dir)
@@ -158,7 +101,7 @@ func LoadKNET(filename string) ([]*Wave, error) {
 
 	f, err := os.Open(filename)
 	if err != nil {
-		return []*Wave{ wave }, err
+		return []*Wave{wave}, err
 	}
 	defer f.Close()
 
@@ -189,14 +132,14 @@ func LoadKNET(filename string) ([]*Wave, error) {
 		dataStrings := regexp.MustCompile(" +").Split(line, 8)
 		for _, s := range dataStrings {
 			d, _ := strconv.ParseFloat(s, 64)
-			data = append(data, d * scaleFactor)
+			data = append(data, d*scaleFactor)
 		}
 	}
 
 	wave.Name = ""
 	wave.Dt = dt
 	wave.Data = data
-	return []*Wave{ wave }, nil
+	return []*Wave{wave}, nil
 }
 
 func LoadJMA(filename string) ([]*Wave, error) {
@@ -264,14 +207,14 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 	fn, _ := strconv.Atoi(fstrings[0])
 	fl, _ := strconv.Atoi(fstrings[1])
 	lineCount := ndata / fn
-	if ndata % fn > 0 {
+	if ndata%fn > 0 {
 		lineCount += 1
 	}
 	var data []float64
 
 	f, err := os.Open(filename)
 	if err != nil {
-		return []*Wave{ wave }, err
+		return []*Wave{wave}, err
 	}
 	defer f.Close()
 
@@ -292,15 +235,15 @@ func LoadFixedFormat(filename, wavename, format string, dt float64, ndata, skip 
 	}
 	wave.Data = data
 
-	return []*Wave{ wave }, nil
+	return []*Wave{wave}, nil
 }
 
 func splitN(s string, l int) []string {
 	var r []string
 
 	for i := 0; i < len(s); i += l {
-		if i + l < len(s) {
-			r = append(r, s[i:(i + l)])
+		if i+l < len(s) {
+			r = append(r, s[i:(i+l)])
 		} else {
 			r = append(r, s[i:])
 		}
