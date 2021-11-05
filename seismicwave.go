@@ -10,6 +10,10 @@ type Wave struct {
 	Data []float64
 }
 
+func New() *Wave {
+	return newWave()
+}
+
 func newWave() *Wave {
 	p := new(Wave)
 	return p
