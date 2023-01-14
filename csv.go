@@ -6,6 +6,7 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func LoadCSV(filename string) ([]*Wave, error) {
@@ -29,7 +30,7 @@ func LoadCSV(filename string) ([]*Wave, error) {
 	n := len(row) - 1
 	for i := 1; i <= n; i++ {
 		wave := newWave()
-		wave.Name = row[i]
+		wave.Name = strings.TrimSpace(row[i])
 		waves = append(waves, wave)
 	}
 	for {
@@ -42,9 +43,9 @@ func LoadCSV(filename string) ([]*Wave, error) {
 			return waves, nil
 		}
 		t1 = t2
-		t2, _ = strconv.ParseFloat(row[0], 64)
+		t2, _ = strconv.ParseFloat(strings.TrimSpace(row[0]), 64)
 		for i := 1; i <= n; i++ {
-			d, e := strconv.ParseFloat(row[i], 64)
+			d, e := strconv.ParseFloat(strings.TrimSpace(row[i]), 64)
 			if e == nil {
 				waves[i-1].Data = append(waves[i-1].Data, d)
 			}
