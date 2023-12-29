@@ -42,6 +42,19 @@ func (w *Wave) Max() float64 {
 	return max
 }
 
+func (w *Wave) MaxWithTime() (float64, float64) {
+	max := w.Data[0]
+	n := len(w.Data)
+	t := 0.0
+	for i := 0; i < n; i++ {
+		if w.Data[i] > max {
+			max = w.Data[i]
+			t = w.Dt * float64(i)
+		}
+	}
+	return max, t
+}
+
 func (w *Wave) AbsMax() float64 {
 	absMax := w.Data[0]
 	n := len(w.Data)
@@ -53,6 +66,19 @@ func (w *Wave) AbsMax() float64 {
 	return absMax
 }
 
+func (w *Wave) AbsMaxWithTime() (float64, float64) {
+	absMax := w.Data[0]
+	n := len(w.Data)
+	t := 0.0
+	for i := 0; i < n; i++ {
+		if math.Abs(w.Data[i]) > absMax {
+			absMax = math.Abs(w.Data[i])
+			t = w.Dt * float64(i)
+		}
+	}
+	return absMax, t
+}
+
 func (w *Wave) Min() float64 {
 	min := w.Data[0]
 	n := len(w.Data)
@@ -62,4 +88,17 @@ func (w *Wave) Min() float64 {
 		}
 	}
 	return min
+}
+
+func (w *Wave) MinWithTime() (float64, float64) {
+	min := w.Data[0]
+	n := len(w.Data)
+	t := 0.0
+	for i := 0; i < n; i++ {
+		if w.Data[i] < min {
+			min = w.Data[i]
+			t = w.Dt * float64(i)
+		}
+	}
+	return min, t
 }
