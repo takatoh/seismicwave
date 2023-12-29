@@ -4,9 +4,12 @@
 
 ## Install
 
-``` go get github.com/takatoh/seismicwave```
+```
+go get github.com/takatoh/seismicwave
+```
 
 ## Usage
+
 読み込みたいファイルフォーマットによって関数を使い分けます。いずれの関数も seismicwave.Wave 構造体
 （のポインタ）のスライスとエラー値を返します。
 
