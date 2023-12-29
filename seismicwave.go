@@ -19,6 +19,12 @@ func newWave() *Wave {
 	return p
 }
 
+func Make(name string, dt float64, data []float64) *Wave {
+	p := new(Wave)
+	p.Name, p.Dt, p.Data = name, dt, data
+	return p
+}
+
 func (w *Wave) DT() float64 {
 	return w.Dt
 }
