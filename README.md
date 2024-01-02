@@ -4,8 +4,10 @@
 
 ## Install
 
+`go.mod` ファイルに次の行を追記してください。
+
 ```
-go get github.com/takatoh/seismicwave
+require github.com/takatoh/seismicwave v1.2.0
 ```
 
 ## Usage
